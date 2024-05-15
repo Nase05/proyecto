@@ -54,7 +54,12 @@ public class HomeController {
 	public String home(Model model, HttpSession session) {
 		Integer idUsuario = (Integer) session.getAttribute("idusuario");
 		if (idUsuario != null) {
+			Optional<Usuario> userOptional = usuarioService.findById(idUsuario);
 			model.addAttribute("sesion", idUsuario);
+			 if (userOptional.isPresent()) {
+		            Usuario usuario = userOptional.get();
+		            model.addAttribute("usuario", usuario); // Agrega el objeto usuario al modelo
+			 }
 			// Verificar si el usuario es un administrador
 			Optional<Usuario> user = usuarioService.findById(idUsuario);
 			if (user.isPresent() && user.get().getTipo().equals("ADMIN")) {
@@ -296,8 +301,9 @@ public class HomeController {
 	public String searchProduct(@RequestParam("nombre") String nombre, Model model, HttpSession session) {
 	    Integer idUsuario = (Integer) session.getAttribute("idusuario");
 	    if (idUsuario != null) {
-	        Optional<Usuario> user = usuarioService.findById(idUsuario);
-	        if (user.isPresent() && user.get().getTipo().equals("ADMIN")) {
+	    	Optional<Usuario> userOptional = usuarioService.findById(idUsuario);
+	        Usuario usuario = userOptional.get();
+	        if (usuario.getTipo().equals("ADMIN")) {
 	            // Si el usuario es un administrador, busca todos los productos y los filtra por nombre
 	            List<Producto> productos = productoService.findAll().stream()
 	                    .filter(p -> p.getNombre().toLowerCase().contains(nombre.toLowerCase()))
@@ -309,18 +315,22 @@ public class HomeController {
 	            List<Producto> productos = productoService.findAll().stream()
 	                    .filter(p -> p.getNombre().toLowerCase().contains(nombre.toLowerCase()))
 	                    .collect(Collectors.toList());
+	            model.addAttribute("usuario", usuario); 
 	            model.addAttribute("productos", productos);
+	            model.addAttribute("sesion", idUsuario);
 	            return "usuario/home";
 	        }
 	    } else {
-	        // Si no hay una sesión de usuario, redirige a la página de inicio de usuario normal
+	        // Si no hay una sesión de usuario o el usuario no existe, redirige a la página de inicio de usuario normal
 	        List<Producto> productos = productoService.findAll().stream()
 	                .filter(p -> p.getNombre().toLowerCase().contains(nombre.toLowerCase()))
 	                .collect(Collectors.toList());
+            model.addAttribute("sesion", idUsuario);
 	        model.addAttribute("productos", productos);
 	        return "usuario/home";
 	    }
 	}
+	
 
 
 }

@@ -11,7 +11,7 @@
                 <li class="nav-item mr-5"><a class="nav-link text-dark" th:href="@{/usuario/contacto}">Contacto</a></li>
             </ul>
 
-            <form class="d-flex ml-auto mr-3" method="post" th:action="@{/search}">
+            <form class="d-flex ml-auto mr-3" method="post" th:action="@{/search}" th:href="@{/}">
                 <input class="form-control" type="search" placeholder="Buscar" aria-label="Search" name="nombre" autocomplete="off">
                 <button class="btn btn-outline-dark ml-2" type="submit">Buscar</button>
             </form>
@@ -49,7 +49,10 @@
 
             <div>
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item dropdown"><a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> USER </a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span th:text="'Hola, ' + ${usuario.nombre}"></span>
+                        </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <a class="dropdown-item" th:href="@{/usuario/compras}">Compras</a>
                             <a class="dropdown-item" th:href="@{/getCart}">Carrito</a>
@@ -61,6 +64,7 @@
         </div>
     </nav>
 </div>
+
 
 
 <!-- Footer -->

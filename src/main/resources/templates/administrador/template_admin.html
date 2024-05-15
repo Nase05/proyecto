@@ -6,11 +6,12 @@
 			                <img src="/images/logo sin fondo.png" alt="Logo" style="height: 50px;"> BlueSkyFlower
 			            </a>
 
-			<form class="d-flex ml-auto mr-3" method="post" th:action="@{/search}">
-				<input class="form-control" type="search" placeholder="Buscar" aria-label="Search" name="nombre"
-					autocomplete="off">
-				<button class="btn btn-outline-dark ml-2" type="submit">Buscar</button>
-			</form>
+						<form class="d-flex ml-auto mr-3" method="post" th:action="@{/search}">
+						    <input type="hidden" name="idUsuario" th:value="${sesion}" /> <!-- Campo oculto para enviar el ID de usuario -->
+						    <input class="form-control" type="search" placeholder="Buscar" aria-label="Search" name="nombre" autocomplete="off">
+						    <button class="btn btn-outline-dark ml-2" type="submit">Buscar</button>
+						</form>
+
 
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
 				aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
