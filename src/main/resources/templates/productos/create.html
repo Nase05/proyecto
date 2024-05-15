@@ -8,7 +8,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>Spring eCommerce</title>
+	<title>BlueSkyFlower</title>
 
 	<!-- Bootstrap core CSS -->
 	<link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
@@ -28,16 +28,17 @@
 
 
 		<!-- Page Heading/Breadcrumbs -->
-		<h1 class="mt-4 mb-3">
-			Spring eCommerce <small>Productos</small>
+		<h1 class="mt-4 mb-3 text-white">
+			BlueSkyFlower <small>Productos</small>
 		</h1>
 
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="index.html">Home</a></li>
+			<li class="breadcrumb-item"><a th:href="@{/}" class="text-dark">Home</a></li>
 			<li class="breadcrumb-item active">Crear Productos</li>
 		</ol>
 
-		<h2>Crear Producto</h2>
+		<div class="card mb-4">
+		<h2 class="ml-3 mt-4">Crear Producto</h2>
 		<form class="form-horizontal" th:action="@{/productos/save}" method="post" enctype="multipart/form-data">
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="nombre">Nombre:</label>
@@ -78,15 +79,15 @@
 			</div>
 
 			<div class="row">
-				<div class="col-sm-2">
-					<button type="submit" class="btn btn-success">
+				<div class="col-sm-2 ml-3 mb-4">
+					<button type="submit" class="btn btn-dark">
 						<span class="glyphicon glyphicon-saved"></span> Guardar
 					</button>
 				</div>
 			</div>
 
 		</form>
-
+		</div>
 	</div>
 	<!-- /.container -->
 

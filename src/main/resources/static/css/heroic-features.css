@@ -6,3 +6,9 @@
 body {
   padding-top: 56px;
 }
+
+body {
+    background-image: url('/images/madera.jpg');
+    background-size: cover; /* Para que la imagen cubra todo el fondo */
+    background-repeat: no-repeat; /* Para evitar que la imagen se repita */
+}

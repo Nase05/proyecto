@@ -54,9 +54,18 @@ public class HomeController {
 	public String home(Model model, HttpSession session) {
 		Integer idUsuario = (Integer) session.getAttribute("idusuario");
 		if (idUsuario != null) {
-		    model.addAttribute("sesion", idUsuario);
+			model.addAttribute("sesion", idUsuario);
+			// Verificar si el usuario es un administrador
+			Optional<Usuario> user = usuarioService.findById(idUsuario);
+			if (user.isPresent() && user.get().getTipo().equals("ADMIN")) {
+				model.addAttribute("productos", productoService.findAll());
+				// Si el usuario es un administrador, redirigir a la página de inicio del
+				// administrador
+				return "administrador/home";
+			}
 		} else {
-		    model.addAttribute("sesion", null);
+			model.addAttribute("sesion", null);
+			model.addAttribute("isAdmin", false);
 		}
 
 		log.info("Sesión del usuario: {}", session.getAttribute("idusuario"));
@@ -66,13 +75,104 @@ public class HomeController {
 		return "usuario/home";
 	}
 
-	@GetMapping("productohome/{id}")
-	public String productoHome(@PathVariable("id") Integer id, Model model,  HttpSession session) {
+	@GetMapping("usuario/contacto")
+	public String contacto(Model model, HttpSession session) {
 		Integer idUsuario = (Integer) session.getAttribute("idusuario");
 		if (idUsuario != null) {
-		    model.addAttribute("sesion", idUsuario);
+			model.addAttribute("sesion", idUsuario);
 		} else {
-		    model.addAttribute("sesion", null);
+			model.addAttribute("sesion", null);
+		}
+
+		log.info("Sesión del usuario: {}", session.getAttribute("idusuario"));
+
+		return "usuario/contacto";
+	}
+	
+	@GetMapping("usuario/acercade")
+	public String acercade(Model model, HttpSession session) {
+		Integer idUsuario = (Integer) session.getAttribute("idusuario");
+		if (idUsuario != null) {
+			model.addAttribute("sesion", idUsuario);
+		} else {
+			model.addAttribute("sesion", null);
+		}
+
+		log.info("Sesión del usuario: {}", session.getAttribute("idusuario"));
+
+		return "usuario/acercade";
+	}
+
+	@GetMapping("usuario/mobiliario")
+	public String mobiliario(Model model, HttpSession session) {
+		Integer idUsuario = (Integer) session.getAttribute("idusuario");
+		if (idUsuario != null) {
+			model.addAttribute("sesion", idUsuario);
+		} else {
+			model.addAttribute("sesion", null);
+		}
+
+		log.info("Sesión del usuario: {}", session.getAttribute("idusuario"));
+
+		// Filtrar los productos por tipo "mobiliario"
+		List<Producto> productosMobiliario = productoService.findAll().stream()
+				.filter(producto -> "mobiliario".equalsIgnoreCase(producto.getTipo())).collect(Collectors.toList());
+
+		model.addAttribute("productos", productosMobiliario);
+		model.addAttribute("session", session.getAttribute("idusuario"));
+
+		return "usuario/mobiliario";
+	}
+
+	@GetMapping("usuario/piezas")
+	public String piezas(Model model, HttpSession session) {
+		Integer idUsuario = (Integer) session.getAttribute("idusuario");
+		if (idUsuario != null) {
+			model.addAttribute("sesion", idUsuario);
+		} else {
+			model.addAttribute("sesion", null);
+		}
+
+		log.info("Sesión del usuario: {}", session.getAttribute("idusuario"));
+
+		// Filtrar los productos por tipo "mobiliario"
+		List<Producto> productosMobiliario = productoService.findAll().stream()
+				.filter(producto -> "piezas".equalsIgnoreCase(producto.getTipo())).collect(Collectors.toList());
+
+		model.addAttribute("productos", productosMobiliario);
+		model.addAttribute("session", session.getAttribute("idusuario"));
+
+		return "usuario/piezas";
+	}
+
+	@GetMapping("usuario/cachimbas")
+	public String cachimbas(Model model, HttpSession session) {
+		Integer idUsuario = (Integer) session.getAttribute("idusuario");
+		if (idUsuario != null) {
+			model.addAttribute("sesion", idUsuario);
+		} else {
+			model.addAttribute("sesion", null);
+		}
+
+		log.info("Sesión del usuario: {}", session.getAttribute("idusuario"));
+
+		// Filtrar los productos por tipo "mobiliario"
+		List<Producto> productosMobiliario = productoService.findAll().stream()
+				.filter(producto -> "cachimbas".equalsIgnoreCase(producto.getTipo())).collect(Collectors.toList());
+
+		model.addAttribute("productos", productosMobiliario);
+		model.addAttribute("session", session.getAttribute("idusuario"));
+
+		return "usuario/cachimbas";
+	}
+
+	@GetMapping("productohome/{id}")
+	public String productoHome(@PathVariable("id") Integer id, Model model, HttpSession session) {
+		Integer idUsuario = (Integer) session.getAttribute("idusuario");
+		if (idUsuario != null) {
+			model.addAttribute("sesion", idUsuario);
+		} else {
+			model.addAttribute("sesion", null);
 		}
 
 		log.info("Id producto enviado como parámetro {}", id);
@@ -86,17 +186,17 @@ public class HomeController {
 	}
 
 	@PostMapping("/cart")
-	public String addCart(@RequestParam("id") Integer id, @RequestParam("cantidad") Integer cantidad, Model model, HttpSession session) {
+	public String addCart(@RequestParam("id") Integer id, @RequestParam("cantidad") Integer cantidad, Model model,
+			HttpSession session) {
 		DetalleOrden detalleOrden = new DetalleOrden();
 		Producto producto = new Producto();
 		double sumaTotal = 0;
 		Integer idUsuario = (Integer) session.getAttribute("idusuario");
 		if (idUsuario != null) {
-		    model.addAttribute("sesion", idUsuario);
+			model.addAttribute("sesion", idUsuario);
 		} else {
-		    model.addAttribute("sesion", null);
+			model.addAttribute("sesion", null);
 		}
-
 
 		Optional<Producto> optionalProducto = productoService.get(id);
 		log.info("Producto añadido {}", optionalProducto.get());
@@ -145,10 +245,10 @@ public class HomeController {
 
 	@GetMapping("/getCart")
 	public String getCart(Model model, HttpSession session) {
-	
+
 		model.addAttribute("cart", detalles);
 		model.addAttribute("orden", orden);
-		
+
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
 		return "usuario/carrito";
 	}
@@ -158,9 +258,9 @@ public class HomeController {
 
 		Integer idUsuario = (Integer) session.getAttribute("idusuario");
 		if (idUsuario != null) {
-		    model.addAttribute("sesion", idUsuario);
+			model.addAttribute("sesion", idUsuario);
 		} else {
-		    model.addAttribute("sesion", null);
+			model.addAttribute("sesion", null);
 		}
 
 		Usuario usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
@@ -191,13 +291,36 @@ public class HomeController {
 		detalles.clear();
 		return "redirect:/";
 	}
-	
+
 	@PostMapping("/search")
-	public String searchProduct(@RequestParam("nombre") String nombre, Model model) {
-		log.info("Nombre del producto: {}", nombre);
-		List<Producto> productos = productoService.findAll().stream().filter(p -> p.getNombre().contains(nombre)).collect(Collectors.toList());
-		model.addAttribute("productos", productos);
-		return "usuario/home";
+	public String searchProduct(@RequestParam("nombre") String nombre, Model model, HttpSession session) {
+	    Integer idUsuario = (Integer) session.getAttribute("idusuario");
+	    if (idUsuario != null) {
+	        Optional<Usuario> user = usuarioService.findById(idUsuario);
+	        if (user.isPresent() && user.get().getTipo().equals("ADMIN")) {
+	            // Si el usuario es un administrador, busca todos los productos y los filtra por nombre
+	            List<Producto> productos = productoService.findAll().stream()
+	                    .filter(p -> p.getNombre().toLowerCase().contains(nombre.toLowerCase()))
+	                    .collect(Collectors.toList());
+	            model.addAttribute("productos", productos);
+	            return "administrador/home";
+	        } else {
+	            // Si el usuario no es un administrador, busca productos y los filtra por nombre
+	            List<Producto> productos = productoService.findAll().stream()
+	                    .filter(p -> p.getNombre().toLowerCase().contains(nombre.toLowerCase()))
+	                    .collect(Collectors.toList());
+	            model.addAttribute("productos", productos);
+	            return "usuario/home";
+	        }
+	    } else {
+	        // Si no hay una sesión de usuario, redirige a la página de inicio de usuario normal
+	        List<Producto> productos = productoService.findAll().stream()
+	                .filter(p -> p.getNombre().toLowerCase().contains(nombre.toLowerCase()))
+	                .collect(Collectors.toList());
+	        model.addAttribute("productos", productos);
+	        return "usuario/home";
+	    }
 	}
+
 
 }

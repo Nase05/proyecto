@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Acerca de Nosotros - BlueSkyFlower</title>
+
+	<!-- Bootstrap core CSS -->
+	<link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+	<!-- Custom styles for this template -->
+	<link th:href="@{/css/heroic-features.css}" rel="stylesheet">
+</head>
+
+<body>
+
+	<!-- Header -->
+	<div th:include="usuario/template_usuario.html::header" th:if="${sesion==null}"></div>
+	<div th:include="usuario/template_usuario.html::header-user" th:unless="${sesion==null}"></div>
+
+	<!-- Main Content -->
+	<div class="container mt-5 pt-5">
+		<div class="row justify-content-center">
+			<div class="col-md-8 mb-4 card">
+				<h2 class="text-center mb-4 mt-4">Acerca de Nosotros</h2>
+				<p>BlueSkyFlower es una empresa familiar que nace en Écija, dedicada a la creación de productos
+					artesanales únicos y originales. Desde nuestros modestos comienzos en el taller de nuestro hogar,
+					hemos cultivado una pasión por el diseño y la artesanía que se refleja en cada pieza que creamos.
+				</p>
+				<p>Nuestro equipo está compuesto por artesanos expertos que dominan una variedad de técnicas, desde la
+					carpintería hasta el tejido con hilo, permitiéndonos ofrecer una amplia gama de productos que van
+					desde muebles hasta accesorios para el hogar.</p>
+				<p>En BlueSkyFlower, nos enorgullecemos de nuestra atención al detalle y de la calidad de nuestros
+					productos. Cada artículo está hecho a mano con amor y cuidado, utilizando materiales de la más alta
+					calidad para garantizar su durabilidad y belleza duradera.</p>
+				<p>Nuestra misión es embellecer los hogares y alegrar las vidas de nuestros clientes con nuestras
+					creaciones únicas. Valoramos la artesanía tradicional y nos esforzamos por preservarla en un mundo
+					cada vez más dominado por la producción en masa.</p>
+			</div>
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<div th:include="usuario/template_usuario.html::footer"></div>
+
+	<!-- Bootstrap core JavaScript -->
+	<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+	<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>

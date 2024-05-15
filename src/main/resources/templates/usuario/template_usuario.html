@@ -1,75 +1,103 @@
-<!-- Navigation -->
 <div th:fragment="header">
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-		<div class="container">
-			<a class="navbar-brand" th:href="@{/}">Spring eCommerce</a>
+    <nav class="navbar bg-body-tertiary fixed-top" style="background-color: #d6d1b6;">
+        <div class="container-fluid">
+            <a class="navbar-brand text-dark mr-5" th:href="@{/}">
+                <img src="/images/logo sin fondo.png" alt="Logo" style="height: 30px;"> BlueSkyFlower
+            </a>
+            <ul class="navbar-nav flex-row mr-5">
+                <li class="nav-item auto mr-5"><a class="nav-link text-dark" th:href="@{/usuario/mobiliario}">Mobiliario</a></li>
+                <li class="nav-item auto mr-5"><a class="nav-link text-dark" th:href="@{/usuario/piezas}">Piezas</a></li>
+                <li class="nav-item mr-5"><a class="nav-link text-dark" th:href="@{/usuario/cachimbas}">Cachimbas</a></li>
+                <li class="nav-item mr-5"><a class="nav-link text-dark" th:href="@{/usuario/contacto}">Contacto</a></li>
+            </ul>
 
-			<form class="form-inline my-2 my-lg-0" method="post" th:action="@{/search}">
-				<input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search" name="nombre"
-					autocomplete="off">
-				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
-			</form>
-
-
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-				aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarResponsive">
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item"><a class="nav-link" th:href="@{/getCart}">Carrito</a></li>
-					<li class="nav-item"><a class="nav-link" th:href="@{usuario/login}">Login</a></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+            <form class="d-flex ml-auto mr-3" method="post" th:action="@{/search}">
+                <input class="form-control" type="search" placeholder="Buscar" aria-label="Search" name="nombre" autocomplete="off">
+                <button class="btn btn-outline-dark ml-2" type="submit">Buscar</button>
+            </form>
+            <a class="nav-link text-dark ml-3" th:href="@{/usuario/login}">Login</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive"></div>
+        </div>
+    </nav>
 </div>
 
 <!-- Navigation -->
 <div th:fragment="header-user">
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-		<div class="container">
-			<a class="navbar-brand" th:href="@{/}">Spring eCommerce</a>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top" style="background-color: #d6d1b6; height: 60px;">
+        <div class="container-fluid">
+            <a class="navbar-brand text-dark mr-5" th:href="@{/}">
+                <img src="/images/logo sin fondo.png" alt="Logo" style="height: 30px; margin-right: 10px;"> BlueSkyFlower
+            </a>
+            <ul class="navbar-nav flex-row mr-5">
+                <li class="nav-item auto mr-5"><a class="nav-link text-dark" th:href="@{/usuario/mobiliario}">Mobiliario</a></li>
+                <li class="nav-item auto mr-5"><a class="nav-link text-dark" th:href="@{/usuario/piezas}">Piezas</a></li>
+                <li class="nav-item mr-5"><a class="nav-link text-dark" th:href="@{/usuario/cachimbas}">Cachimbas</a></li>
+                <li class="nav-item mr-5"><a class="nav-link text-dark" th:href="@{/usuario/contacto}">Contacto</a></li>
+            </ul>
 
-			<form class="form-inline my-2 my-lg-0" method="post" th:action="@{/search}">
-				<input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search" name="nombre"
-					autocomplete="off">
-				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
-			</form>
+            <form class="d-flex ml-auto mr-3" method="post" th:action="@{/search}">
+                <input class="form-control" type="search" placeholder="Buscar" aria-label="Search" name="nombre" autocomplete="off">
+                <button class="btn btn-outline-dark ml-2" type="submit">Buscar</button>
+            </form>
 
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-				aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarResponsive">
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#"
-							id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true"
-							aria-expanded="false"> USER </a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-							<a class="dropdown-item" th:href="@{/usuario/compras}">Compras</a>
-							<a class="dropdown-item" th:href="@{/getCart}">Carrito</a>
-							<a class="dropdown-item" th:href="@{/usuario/cerrar}">Salir</a>
-						</div>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</nav>
-
+            <div>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown"><a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> USER </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" th:href="@{/usuario/compras}">Compras</a>
+                            <a class="dropdown-item" th:href="@{/getCart}">Carrito</a>
+                            <a class="dropdown-item" th:href="@{/usuario/cerrar}">Salir</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 </div>
+
 
 <!-- Footer -->
+<!-- Footer -->
 <div th:fragment="footer">
-	<footer class="py-5 bg-dark">
-		<div class="container">
-			<p class="m-0 text-center text-white">Copyright &copy; Spring eCommerce 2021</p>
-		</div>
-		<!-- /.container -->
-	</footer>
+    <footer class="py-5" style="background-color: #d6d1b6;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Contacto</h5>
+                    <p>Dirección: 123 Calle Principal, Ciudad, País</p>
+                    <p>Teléfono: +123456789</p>
+                    <p>Correo electrónico: info@ejemplo.com</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Enlaces</h5>
+                    <ul class="list-unstyled">
+                        <li><a th:href="@{/}" style="color: rgb(128, 128, 128);">Inicio</a></li>
+                        <li><a th:href="@{/usuario/acercade}"style="color: rgb(128, 128, 128);">Acerca de nosotros</a></li>
+                        <li><a href="#" style="color: rgb(128, 128, 128);">Servicios</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Síguenos</h5>
+                    <ul class="list-unstyled d-flex">
+                        <li><a href="https://www.pinterest.es/blueskyflowerofficial/"><img src="/images/pinterest.png" alt="Logo" style="height: 20px;" class="mr-2 mb-1"></a></li>
+                        <li><a href="https://www.instagram.com/_blueskyflower/"><img src="/images/instagram.png" alt="Logo" style="height: 20px;" class="mr-2 mb-1"></a></li>
+                        <li><a href="https://www.tiktok.com/@_blueskyflower/"><img src="/images/tiktok.png" alt="Logo" style="height: 20px;" class=" mb-1"></a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <p class="m-0 text-center text-black">Copyright &copy; BlueSkyFlower 2024</p>
+        </div>
+        <!-- /.container -->
+    </footer>
 </div>
-
 
 <!-- Bootstrap core JavaScript -->
 <script th:src="@{vendor/jquery/jquery.min.js}"></script>
