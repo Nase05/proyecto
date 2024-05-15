@@ -21,9 +21,10 @@
 <!-- Main Content -->
 <div class="container mt-5 pt-5">
     <div class="row justify-content-center">
+			<h5 class="mb-4  col-md-8">Debido a que también realizamos productos hechos a medida, aquí te dejamos un formulario de contacto para cualquier duda o petición que se te ocurra.</h3>
         <div class="card col-md-8 mb-4">
             <h2 class="text-center mb-4 mt-4">Formulario de Contacto</h2>
-            <form action="/contacto/enviar" method="post">
+            <form action="https://formsubmit.co/nerea3579@gmail.com" method="POST">
                 <div class="form-group">
                     <label for="from_name">Nombre</label>
                     <input type="text" class="form-control" id="from_name" name="from_name" required>
@@ -41,6 +42,9 @@
                     <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
                 </div>
                 <button type="submit" class="btn btn-dark btn-block mb-4" id="button">Enviar</button>
+				
+				<input type="hidden" name="_next" value="http://localhost:8080">
+				<input type="hidden" name="_captcha" value="false">
             </form>
         </div>
     </div>

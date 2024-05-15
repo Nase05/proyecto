@@ -18,6 +18,7 @@ public class Producto {
 	private String imagen;
 	private double precio;
 	private String tipo;
+	private boolean popular;
 	private int cantidad;
 	
 	@ManyToOne
@@ -29,10 +30,8 @@ public class Producto {
 	
 
 
-
-
 	public Producto(Integer id, String nombre, String descripcion, String imagen, double precio, String tipo,
-			int cantidad, Usuario usuario) {
+			boolean popular, int cantidad, Usuario usuario) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -40,11 +39,10 @@ public class Producto {
 		this.imagen = imagen;
 		this.precio = precio;
 		this.tipo = tipo;
+		this.popular = popular;
 		this.cantidad = cantidad;
 		this.usuario = usuario;
 	}
-
-
 
 
 
@@ -104,12 +102,25 @@ public class Producto {
 
 
 
+	public boolean isPopular() {
+		return popular;
+	}
+
+
+
+
+
+	public void setPopular(boolean popular) {
+		this.popular = popular;
+	}
+
 
 
 	@Override
 	public String toString() {
 		return "Producto [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", imagen=" + imagen
-				+ ", precio=" + precio + ", tipo=" + tipo + ", cantidad=" + cantidad + ", usuario=" + usuario + "]";
+				+ ", precio=" + precio + ", tipo=" + tipo + ", popular=" + popular + ", cantidad=" + cantidad
+				+ ", usuario=" + usuario + "]";
 	}
 
 	

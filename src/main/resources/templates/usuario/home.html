@@ -22,15 +22,17 @@
 <body>
 
     <!-- Navigation -->
-	<div th:include="usuario/template_usuario.html::header" th:if="${sesion==null}"></div>
-	<div th:include="usuario/template_usuario.html::header-user" th:unless="${sesion==null}"></div>
+    <div th:include="usuario/template_usuario.html::header" th:if="${sesion==null}"></div>
+    <div th:include="usuario/template_usuario.html::header-user" th:unless="${sesion==null}"></div>
 
     <!-- Page Content -->
-    <div class="container">
-        <!-- Page Features -->
+    <div class="container mt-4">
+        <!-- Encabezado -->
+        <h2 class="mt-4">Más populares</h2>
+        
+        <!-- Productos -->
         <div class="row text-center">
-
-            <div class="col-lg-3 col-md-6 mb-4 mt-4" th:each="producto: ${productos}">
+            <div class="col-lg-3 col-md-6 mb-4 mt-5" th:each="producto: ${productos}">
                 <div class="card h-100">
                     <img class="card-img-top" th:src="@{/images/{img} (img = ${producto.imagen})}" alt="">
                     <div class="card-body">
@@ -42,10 +44,6 @@
                 </div>
             </div>
         </div>
-
-    </div>
-    <!-- /.row -->
-
     </div>
     <!-- /.container -->
 
