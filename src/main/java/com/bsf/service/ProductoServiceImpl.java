@@ -42,4 +42,8 @@ public class ProductoServiceImpl implements IProductoService{
 		return productoRepository.findAll();
 	}
 
+	public Optional<Producto> findById(Integer id) {
+		return productoRepository.findById(id);
+	}
+
 }

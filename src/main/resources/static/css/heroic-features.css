@@ -4,17 +4,76 @@
  * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-heroic-features/blob/master/LICENSE)
  */
 body {
-  padding-top: 56px;
+	padding-top: 56px;
 }
 
 body {
-    background-image: url('/images/madera.jpg');
-    background-size: cover; /* Para que la imagen cubra todo el fondo */
-    background-repeat: no-repeat; /* Para evitar que la imagen se repita */
+	background-image: url('/images/maderafondo.jpg');
+	background-size: cover;
+	/* Para que la imagen cubra todo el fondo */
+	background-repeat: no-repeat;
+	/* Para evitar que la imagen se repita */
 }
 
 h5.mb-4 {
-    background-color: rgba(255, 255, 255, 0.5);
-    padding: 10px;
+	background-color: rgba(255, 255, 255, 0.5);
+	padding: 10px;
 }
 
+/* Agrega estilos para la imagen agrandada */
+.img-modal {
+	display: none;
+	/* Por defecto, la imagen agrandada está oculta */
+	position: fixed;
+	z-index: 1;
+	/* Ubica la imagen agrandada por encima de todo */
+	padding-top: 100px;
+	/* Añade espacio encima de la imagen agrandada */
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	/* Habilita el desplazamiento si la altura de la imagen es demasiado grande */
+	background-color: rgb(0, 0, 0);
+	/* Fondo negro semitransparente */
+	background-color: rgba(0, 0, 0, 0.9);
+	/* Fondo negro semitransparente */
+}
+
+/* Estilos para la imagen en la ventana modal */
+.img-modal-content {
+	margin: auto;
+	display: block;
+	width: 80%;
+	max-width: 700px;
+}
+
+/* Estilos para el botón de cerrar */
+.img-close {
+	position: absolute;
+	top: 15px;
+	right: 35px;
+	color: white;
+	font-size: 40px;
+	font-weight: bold;
+	transition: 0.3;
+}
+
+.img-close:hover,
+.img-close:focus {
+	color: #bbb;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.card-img-top {
+	width: 254px;
+	/* Ancho de 80px */
+	height: 254px;
+}
+
+.img-fluid {
+	max-width: 100%;
+	height: auto;
+}

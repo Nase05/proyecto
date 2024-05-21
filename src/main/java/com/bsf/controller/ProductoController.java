@@ -46,24 +46,32 @@ public class ProductoController {
 	}
 
 	@GetMapping("/create")
-	public String create() {
-		return "productos/create";
+	public String create(Model model) {
+	    model.addAttribute("producto", new Producto());
+	    return "productos/create";
 	}
+
 
 	@PostMapping("/save")
 	public String save(Producto producto, @RequestParam("img") MultipartFile file, HttpSession session) throws IOException {
-		LOGGER.info("Este es el objeto producto {}", producto);
-		Usuario u = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
-		producto.setUsuario(u);
+	    LOGGER.info("Este es el objeto producto {}", producto);
+	    Usuario u = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
+	    producto.setUsuario(u);
 
-		
-		// imagen
-		if (producto.getId() == null) {
-			String nombreImagen = upload.saveImage(file);
-			producto.setImagen(nombreImagen);
-		}
-		productoService.save(producto);
-		return "redirect:/productos";
+	    // imagen
+	    if (producto.getId() == null) {
+	        String nombreImagen = upload.saveImage(file);
+	        producto.setImagen(nombreImagen);
+	    } else if (!file.isEmpty()) {
+	        if (!producto.getImagen().equals("default.jpg")) {
+	            upload.deleteImage(producto.getImagen());
+	        }
+	        String nombreImagen = upload.saveImage(file);
+	        producto.setImagen(nombreImagen);
+	    }
+
+	    productoService.save(producto);
+	    return "redirect:/productos";
 	}
 
 	@GetMapping("/edit/{id}")

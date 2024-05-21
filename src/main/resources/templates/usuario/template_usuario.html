@@ -1,6 +1,7 @@
 <div th:fragment="header">
-    <nav class="navbar bg-body-tertiary fixed-top" style="background-color: #d6d1b6;">
+    <nav class="navbar bg-body-tertiary fixed-top" style="background-color: #9b988a;">
         <div class="container-fluid">
+				
             <a class="navbar-brand text-dark mr-5" th:href="@{/}">
                 <img src="/images/logo sin fondo.png" alt="Logo" style="height: 30px;"> BlueSkyFlower
             </a>
@@ -16,9 +17,6 @@
                 <button class="btn btn-outline-dark ml-2" type="submit">Buscar</button>
             </form>
             <a class="nav-link text-dark ml-3" th:href="@{/usuario/login}">Login</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
             <div class="collapse navbar-collapse" id="navbarResponsive"></div>
         </div>
     </nav>
@@ -26,9 +24,11 @@
 
 <!-- Navigation -->
 <div th:fragment="header-user">
-    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top" style="background-color: #d6d1b6; height: 60px;">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top" style="background-color: #9b988a; height: 60px;">
         <div class="container-fluid">
             <a class="navbar-brand text-dark mr-5" th:href="@{/}">
+				<link rel="icon" href="/images/logo sin fondo.ico" type="image/x-icon" />
+
                 <img src="/images/logo sin fondo.png" alt="Logo" style="height: 30px; margin-right: 10px;"> BlueSkyFlower
             </a>
             <ul class="navbar-nav flex-row mr-5">
@@ -70,21 +70,21 @@
 <!-- Footer -->
 <!-- Footer -->
 <div th:fragment="footer">
-    <footer class="py-5" style="background-color: #d6d1b6;">
-        <div class="container">
+    <footer class="py-5 container-fluid" style="background-color: #9b988a;">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-md-4">
                     <h5>Contacto</h5>
-                    <p>Dirección: 123 Calle Principal, Ciudad, País</p>
-                    <p>Teléfono: +123456789</p>
-                    <p>Correo electrónico: info@ejemplo.com</p>
+                    <p>Dirección: Calle Tarifa, 25, 4D, Sevilla, 41012</p>
+                    <p>Teléfono: +34 609 01 23 92</p>
+                    <p>Correo electrónico: salvi.villa.car@gmail.com</p>
                 </div>
                 <div class="col-md-4">
                     <h5>Enlaces</h5>
                     <ul class="list-unstyled">
-                        <li><a th:href="@{/}" style="color: rgb(128, 128, 128);">Inicio</a></li>
-                        <li><a th:href="@{/usuario/acercade}"style="color: rgb(128, 128, 128);">Acerca de nosotros</a></li>
-                        <li><a href="https://es.wallapop.com/app/user/salvadorv-163623380-lqzml0yyol6v/published" style="color: rgb(128, 128, 128);">Servicios</a></li>
+                        <li><a th:href="@{/}" style="color: #4c4b4b">Inicio</a></li>
+                        <li><a th:href="@{/usuario/acercade}" style="color: #4c4b4b;">Acerca de nosotros</a></li>
+                        <li><a href="https://es.wallapop.com/app/user/salvadorv-163623380-lqzml0yyol6v/published" style="color: #4c4b4b;">Servicios</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4">

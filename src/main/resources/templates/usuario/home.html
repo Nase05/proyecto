@@ -10,7 +10,7 @@
 
     <title>BlueSkyFlower</title>
 
-
+	<link rel="icon" th:href="@{/images/logopestaña.ico}" type="image/x-icon" />
     <!-- Bootstrap core CSS -->
     <link th:href="@{vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
 
@@ -28,7 +28,7 @@
     <!-- Page Content -->
     <div class="container mt-4">
         <!-- Encabezado -->
-        <h2 class="mt-4">Más populares</h2>
+        <h2 class="mt-4 text-white">Más populares</h2>
         
         <!-- Productos -->
         <div class="row text-center">
@@ -39,7 +39,7 @@
                         <p class="card-text" th:text="${producto.nombre}">Nombre del producto.</p>
                     </div>
                     <div class="card-footer">
-                        <a th:href="@{/productohome/{id} (id=${producto.id}) }" class="btn btn-dark">Ver producto</a>
+                        <a th:href="@{/usuario/productohome/{id} (id=${producto.id}) }" class="btn btn-dark">Ver producto</a>
                     </div>
                 </div>
             </div>

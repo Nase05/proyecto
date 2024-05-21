@@ -53,44 +53,56 @@ public class UsuarioController {
 
 	@PostMapping("/acceder")
 	public String acceder(@RequestParam String email, @RequestParam String password, HttpSession session, Model model) {
-		logger.info("Acceso : {}", email);
-		Optional<Usuario> user = usuarioService.findByEmail(email);
+	    logger.info("Acceso : {}", email);
+	    Optional<Usuario> user = usuarioService.findByEmail(email);
 
-		if (user.isPresent() && user.get().getPassword().equals(password)) {
-			session.setAttribute("idusuario", user.get().getId());
-			if (user.get().getTipo().equals("ADMIN")) {
-				return "redirect:/administrador";
-			} else {
-				return "redirect:/";
-			}
-		} else {
-			logger.info("Usuario o contraseña incorrectos");
-			model.addAttribute("error", "Usuario o contraseña incorrectos");
-			return "usuario/login";
-		}
+	    if (user.isPresent() && user.get().getPassword().equals(password)) {
+	        session.setAttribute("idusuario", user.get().getId());
+	        if (user.get().getTipo().equals("ADMIN")) {
+	            session.setAttribute("rol", "ADMIN"); // Establecer el rol del usuario en la sesión
+	            return "redirect:/"; // Redirigir al usuario a una página apropiada para los administradores
+	        } else {
+	            return "redirect:/";
+	        }
+	    } else {
+	        logger.info("Usuario o contraseña incorrectos");
+	        model.addAttribute("error", "Usuario o contraseña incorrectos");
+	        return "usuario/login";
+	    }
 	}
+
 
 	@GetMapping("/compras")
 	public String obtenerCompras(Model model, HttpSession session) {
 		model.addAttribute("sesion", session.getAttribute("idusuario"));
-
+		Integer idUsuario = (Integer) session.getAttribute("idusuario");
 		Usuario usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
 		List<Orden> ordenes = ordenService.findByUsuario(usuario);
+		Optional<Usuario> userOptional = usuarioService.findById(idUsuario);
+		Usuario usuario1 = userOptional.get();
 
 		model.addAttribute("ordenes", ordenes);
+		model.addAttribute("usuario", usuario);
 		return "usuario/compras";
 	}
 
 	@GetMapping("/detalle/{id}")
 	public String detalleCompra(@PathVariable("id") Integer id, Model model, HttpSession session) {
-		logger.info("Id de la orden {}", id);
-		Optional<Orden> orden = ordenService.findById(id);
-		model.addAttribute("detalles", orden.get().getDetalle());
+	    Integer idUsuario = (Integer) session.getAttribute("idusuario");
+	    Usuario usuario = usuarioService.findById(idUsuario).orElse(null);
 
-		model.addAttribute("session", session.getAttribute("idusuario"));
+	    if (usuario != null) {
+	        Optional<Orden> orden = ordenService.findById(id);
+	        if (orden.isPresent()) {
+	            model.addAttribute("detalles", orden.get().getDetalle());
+	        }
+	        model.addAttribute("sesion", idUsuario);
+	        model.addAttribute("usuario", usuario);
+	    }
 
-		return "usuario/detallecompra";
+	    return "usuario/detallecompra";
 	}
+
 
 	@GetMapping("/cerrar")
 	public String cerrarSesion(HttpSession session) {

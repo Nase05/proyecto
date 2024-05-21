@@ -10,7 +10,7 @@
 
 	<title>BlueSkyFlower</title>
 
-
+	<link rel="icon" th:href="@{/images/logopestaña.ico}" type="image/x-icon" />
 	<!-- Bootstrap core CSS -->
 	<link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
 
@@ -75,7 +75,7 @@
 							<li class="list-group-item" th:text="${orden.total}">
 								<h5></h5>
 							</li>
-							<a th:href="@{/order}" class="btn btn-dark">Ver Orden</a>
+							<a th:href="@{/order}" class="btn btn-dark">Ver Pedido</a>
 						</ul>
 					</div>
 
@@ -85,7 +85,7 @@
 		<!-- /.container -->
 
 		<!-- Footer -->
-		<div th:include="usuario/template_usuario.html::footer"></div>
+		<div class=" px-1" th:include="usuario/template_usuario.html::footer"></div>
 
 		<!-- Bootstrap core JavaScript -->
 		<script th:src="@{/vendor/jquery/jquery.min.js}"></script>

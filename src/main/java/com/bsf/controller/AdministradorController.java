@@ -18,71 +18,75 @@ import com.bsf.service.IOrdenService;
 import com.bsf.service.IProductoService;
 import com.bsf.service.IUsuarioService;
 
-
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/administrador")
 public class AdministradorController {
- 
+
 	@Autowired
 	private IProductoService productoService;
-	
+
 	@Autowired
 	private IUsuarioService usuarioService;
-	
+
 	@Autowired
 	private IOrdenService ordenService;
-	
+
 	private Logger logg = LoggerFactory.getLogger(AdministradorController.class);
-	
 
 	@GetMapping("")
-	public String home(Model model) {
-		
+	public String home(Model model, HttpSession session) {
+		// Verificar si el usuario tiene el rol de administrador
+		if (session.getAttribute("rol") == null || !"ADMIN".equals(session.getAttribute("rol"))) {
+			return "redirect:/usuario/login"; // Redirigir al usuario a la página de inicio de sesión si no tiene el rol
+												// de administrador
+		}
+
 		List<Producto> productos = productoService.findAll();
 		model.addAttribute("productos", productos);
-		
-		return "administrador/home";
 
+		return "administrador/home";
 	}
-	
+
 	@GetMapping("/usuarios")
 	public String usuarios(Model model) {
 		model.addAttribute("usuarios", usuarioService.findAll());
 		return "administrador/usuarios";
-		
+
 	}
-	
+
 	@GetMapping("/ordenes")
 	public String ordenes(Model model) {
 		model.addAttribute("ordenes", ordenService.findAll());
 		return "administrador/ordenes";
-		
+
 	}
-	
+
 	@GetMapping("/detalle/{id}")
 	public String detalle(Model model, @PathVariable("id") Integer id) {
-	    logg.info("Id de la orden {}", id);
-	    // Obtener la orden correspondiente al id proporcionado
-	    Orden orden = ordenService.findById(id).orElse(null);
-	    
-	    // Verificar si la orden existe
-	    if (orden != null) {
-	        // Obtener el usuario asociado a la orden
-	        Usuario usuario = orden.getUsuario();
-	        
-	        // Agregar la orden y el usuario al modelo
-	        model.addAttribute("orden", orden);
-	        model.addAttribute("usuario", usuario);
-	        
-	        // Obtener y agregar los detalles de la orden al modelo
-	        model.addAttribute("detalles", orden.getDetalle());
-	    } else {
-	        // En caso de que la orden no exista, redirigir a una página de error o manejar la situación apropiadamente
-	        return "error";
-	    }
-	    
-	    return "administrador/detalleorden";
+		logg.info("Id de la orden {}", id);
+		// Obtener la orden correspondiente al id proporcionado
+		Orden orden = ordenService.findById(id).orElse(null);
+
+		// Verificar si la orden existe
+		if (orden != null) {
+			// Obtener el usuario asociado a la orden
+			Usuario usuario = orden.getUsuario();
+
+			// Agregar la orden y el usuario al modelo
+			model.addAttribute("orden", orden);
+			model.addAttribute("usuario", usuario);
+
+			// Obtener y agregar los detalles de la orden al modelo
+			model.addAttribute("detalles", orden.getDetalle());
+		} else {
+			// En caso de que la orden no exista, redirigir a una página de error o manejar
+			// la situación apropiadamente
+			return "error";
+		}
+
+		return "administrador/detalleorden";
 	}
 
 }

@@ -92,9 +92,7 @@ public class Usuario {
 	public String getPassword() {
 		return password;
 	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
+	
 
 	public List<Producto> getProductos() {
 		return productos;
