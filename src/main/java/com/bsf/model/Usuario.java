@@ -89,6 +89,9 @@ public class Usuario {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	public String getPassword() {
 		return password;
 	}

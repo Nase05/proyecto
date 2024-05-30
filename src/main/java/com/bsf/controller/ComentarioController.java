@@ -58,11 +58,7 @@ public class ComentarioController {
 	}
 
 	@PostMapping("/comentar")
-	public String comentar(@RequestParam String contenido, @RequestParam("imagen") MultipartFile imagenFile, // Nueva
-																												// variable
-																												// para
-																												// la
-																												// imagen
+	public String comentar(@RequestParam String contenido, @RequestParam("imagen") MultipartFile imagenFile,
 			@RequestParam Integer productoId, HttpSession session) {
 		Integer userId = (Integer) session.getAttribute("idusuario");
 		if (userId == null) {

@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +28,7 @@ import jakarta.servlet.http.HttpSession;
 public class UsuarioController {
 
 	private final Logger logger = LoggerFactory.getLogger(UsuarioController.class);
+	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@Autowired
 	private IUsuarioService usuarioService;
@@ -39,9 +42,19 @@ public class UsuarioController {
 	}
 
 	@PostMapping("/save")
-	public String save(Usuario usuario) {
+	public String save(Usuario usuario, Model model) {
 		logger.info("Usuario registro {}", usuario);
+
+		// Verificar si el correo electrónico ya está en uso
+		Optional<Usuario> existingUsuario = usuarioService.findByEmail(usuario.getEmail());
+		if (existingUsuario.isPresent()) {
+			// Agregar un mensaje de error al modelo
+			model.addAttribute("error", "El correo electrónico ya está en uso.");
+			return "usuario/registro"; // Redirigir a la página de registro o a una página de error
+		}
+
 		usuario.setTipo("USER");
+		usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
 		usuarioService.save(usuario);
 		return "redirect:/";
 	}
@@ -53,24 +66,23 @@ public class UsuarioController {
 
 	@PostMapping("/acceder")
 	public String acceder(@RequestParam String email, @RequestParam String password, HttpSession session, Model model) {
-	    logger.info("Acceso : {}", email);
-	    Optional<Usuario> user = usuarioService.findByEmail(email);
+		logger.info("Acceso : {}", email);
+		Optional<Usuario> user = usuarioService.findByEmail(email);
 
-	    if (user.isPresent() && user.get().getPassword().equals(password)) {
-	        session.setAttribute("idusuario", user.get().getId());
-	        if (user.get().getTipo().equals("ADMIN")) {
-	            session.setAttribute("rol", "ADMIN"); // Establecer el rol del usuario en la sesión
-	            return "redirect:/"; // Redirigir al usuario a una página apropiada para los administradores
-	        } else {
-	            return "redirect:/";
-	        }
-	    } else {
-	        logger.info("Usuario o contraseña incorrectos");
-	        model.addAttribute("error", "Usuario o contraseña incorrectos");
-	        return "usuario/login";
-	    }
+		if (user.isPresent() && passwordEncoder.matches(password, user.orElseGet(null).getPassword())) {
+			session.setAttribute("idusuario", user.get().getId());
+			if (user.get().getTipo().equals("ADMIN")) {
+				session.setAttribute("rol", "ADMIN"); // Establecer el rol del usuario en la sesión
+				return "redirect:/"; // Redirigir al usuario a una página apropiada para los administradores
+			} else {
+				return "redirect:/";
+			}
+		} else {
+			logger.info("Usuario o contraseña incorrectos");
+			model.addAttribute("error", "Usuario o contraseña incorrectos");
+			return "usuario/login";
+		}
 	}
-
 
 	@GetMapping("/compras")
 	public String obtenerCompras(Model model, HttpSession session) {
@@ -88,21 +100,20 @@ public class UsuarioController {
 
 	@GetMapping("/detalle/{id}")
 	public String detalleCompra(@PathVariable("id") Integer id, Model model, HttpSession session) {
-	    Integer idUsuario = (Integer) session.getAttribute("idusuario");
-	    Usuario usuario = usuarioService.findById(idUsuario).orElse(null);
+		Integer idUsuario = (Integer) session.getAttribute("idusuario");
+		Usuario usuario = usuarioService.findById(idUsuario).orElse(null);
 
-	    if (usuario != null) {
-	        Optional<Orden> orden = ordenService.findById(id);
-	        if (orden.isPresent()) {
-	            model.addAttribute("detalles", orden.get().getDetalle());
-	        }
-	        model.addAttribute("sesion", idUsuario);
-	        model.addAttribute("usuario", usuario);
-	    }
+		if (usuario != null) {
+			Optional<Orden> orden = ordenService.findById(id);
+			if (orden.isPresent()) {
+				model.addAttribute("detalles", orden.get().getDetalle());
+			}
+			model.addAttribute("sesion", idUsuario);
+			model.addAttribute("usuario", usuario);
+		}
 
-	    return "usuario/detallecompra";
+		return "usuario/detallecompra";
 	}
-
 
 	@GetMapping("/cerrar")
 	public String cerrarSesion(HttpSession session) {

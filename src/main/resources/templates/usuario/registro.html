@@ -2,7 +2,6 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="">
@@ -16,57 +15,70 @@
 
 	<!-- Custom styles for this template -->
 	<link th:href="@{/css/heroic-features.css}" rel="stylesheet">
-
 </head>
 
 <body>
-
-
 	<!-- Navigation -->
 	<nav class="navbar bg-body-tertiary fixed-top" style="background-color: #9b988a;">
-			<div class="container-fluid">
-				<a class="navbar-brand text-dark mr-5" th:href="@{/}">
-					<img src="/images/logo sin fondo.png" alt="Logo" style="height: 30px;"> BlueSkyFlower
-				</a>
-				<a class="nav-link text-dark ml-3" th:href="@{/usuario/login}">Login</a>
-				<div class="collapse navbar-collapse" id="navbarResponsive"></div>
-			</div>
-		</nav>
-
+		<div class="container-fluid">
+			<a class="navbar-brand text-dark mr-5" th:href="@{/}">
+				<img src="/images/logo sin fondo.png" alt="Logo" style="height: 30px;"> BlueSkyFlower
+			</a>
+			<a class="nav-link text-dark ml-3" th:href="@{/usuario/login}">Login</a>
+			<div class="collapse navbar-collapse" id="navbarResponsive"></div>
+		</div>
+	</nav>
 
 	<!-- Page Content -->
 	<div class="container">
 		<div class="card mt-4 mb-4">
-				<div class="row no-gutters">
-					<div class="col-md-4"></div>
+			<div class="row no-gutters">
+				<div class="col-md-4"></div>
+				<div>
 					<div>
-						<div>
-							<h2 class="mt-4">Registro</h2>
-
-						</div>
+						<h2 class="mt-4">Registro</h2>
 					</div>
 				</div>
-			
+			</div>
+
 			<form th:action="@{/usuario/save}" method="post">
 				<div class="form-group ml-4">
-					<label for="nombres">Nombres:</label> <input type="text" class="form-control" id="nombre"
-						name="nombre" required placeholder="Ingrese sus nombres" autocomplete="off">
+					<label for="nombre">Nombre y Apellidos:</label>
+					<input type="text" class="form-control" id="nombre" name="nombre" required
+						placeholder="Ingrese su nombre y apellidos" autocomplete="off">
+				</div>
+				<div class="form-group ml-4">
+					<label for="telefono">Teléfono:</label>
+					<input type="text" class="form-control" id="telefono" name="telefono" required
+						placeholder="Ingrese su teléfono" autocomplete="off">
+				</div>
+				<div class="form-group ml-4">
+					<label for="email">Email:</label>
+					<input type="email" class="form-control" id="email" name="email" required
+						placeholder="Ingrese su email" autocomplete="off">
+				</div>
+				<div class="form-group ml-4">
+					<label for="username">Nombre de usuario:</label>
+					<input type="text" class="form-control" id="username" name="username" required
+						placeholder="Ingrese su nombre de usuario" autocomplete="off">
+				</div>
+				<div class="form-group ml-4">
+					<label for="direccion">Dirección:</label>
+					<input type="text" class="form-control" id="direccion" name="direccion" required
+						placeholder="Ingrese su dirección" autocomplete="off">
 				</div>
 
 				<div class="form-group ml-4">
-					<label for="email">Email:</label> <input type="email" class="form-control" id="email" name="email"
-						required placeholder="Ingrese su email" autocomplete="off">
+					<label for="pwd">Contraseña</label>
+					<input type="password" class="form-control" id="password" name="password" required
+						placeholder="Ingrese su contraseña" autocomplete="off">
 				</div>
 
-				<div class="form-group ml-4">
-					<label for="direccion">Dirección:</label> <input type="text" class="form-control" id="direccion"
-						name="direccion" required placeholder="Ingrese su dirección" autocomplete="off">
+				<!-- Mostrar mensaje de error si el correo electrónico ya está en uso -->
+				<div class="form-group ml-4" th:if="${error}">
+					<div class="alert alert-danger" role="alert" th:text="${error}"></div>
 				</div>
 
-				<div class="form-group ml-4">
-					<label for="pwd">Contraseña</label> <input type="password" class="form-control" id="password"
-						name="password" required placeholder="Ingrese su contraseña" autocomplete="off">
-				</div>
 				<div class="col-sm-2 ml-2 mb-4">
 					<button type="submit" class="btn btn-dark">Guardar</button>
 				</div>

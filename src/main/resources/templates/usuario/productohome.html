@@ -2,141 +2,116 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="description" content="">
-	<meta name="author" content="">
-
-	<title>BlueSkyFlower</title>
-
-	<link rel="icon" th:href="@{/images/logopestaña.ico}" type="image/x-icon" />
-	<!-- Bootstrap core CSS -->
-	<link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-
-	<!-- Custom styles for this template -->
-	<link th:href="@{/css/heroic-features.css}" rel="stylesheet">
-
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>BlueSkyFlower</title>
+    <link rel="icon" th:href="@{/images/logopestaña.ico}" type="image/x-icon" />
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
 </head>
 
 <body>
 
-	<!-- Navigation -->
-	<div th:include="usuario/template_usuario.html::header" th:if="${sesion==null}"></div>
-	<div th:include="usuario/template_usuario.html::header-user" th:unless="${sesion==null}"></div>
+    <!-- Navigation -->
+    <div th:include="usuario/template_usuario.html::header" th:if="${sesion==null}"></div>
+    <div th:include="usuario/template_usuario.html::header-user" th:unless="${sesion==null}"></div>
 
-	<!-- Page Content -->
-	<div class="container">
+    <!-- Page Content -->
+    <div class="container">
 
+        <!-- Page Heading/Breadcrumbs -->
+        <h1 class="mt-4 mb-3 text-white">
+            BlueSkyFlower <small>Producto</small>
+        </h1>
 
-		<!-- Page Heading/Breadcrumbs -->
-		<h1 class="mt-4 mb-3 text-white">
-			BlueSkyFlower <small>Producto</small>
-		</h1>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}" class="text-dark">Home</a></li>
+            <li class="breadcrumb-item active">Producto</li>
+        </ol>
 
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a th:href="@{/}" class="text-dark">Home</a></li>
-			<li class="breadcrumb-item active">Producto</li>
-		</ol>
+        <!-- Blog Post -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <img class="img-fluid rounded" th:if="${producto.imagen != null}"
+                             th:src="@{/images/{img} (img=${producto.imagen})}" alt="">
+                    </div>
+                    <div class="col-lg-6">
+                        <form th:action="@{/cart}" method="POST">
+                            <input type="hidden" th:value="${producto.id}" name="id">
+                            <h2 class="card-title" th:text="${producto.nombre}"></h2>
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <h5 th:text=" 'Precio: ' + ${producto.precio}" S></h5>
+                                </li>
+                                <li class="list-group-item">
+                                    <p th:text="${producto.descripcion}"></p>
+                                </li>
+                                <li class="list-group-item">
+                                    <h6>
+                                        Cantidad: <input type="number" id="cantidad" name="cantidad" autocomplete="off"
+                                                         min="1" max="5" value="1">
+                                    </h6>
+                                </li>
+                            </ul>
+                            <button type="submit" class="btn btn-dark mt-4">Añadir al carrito </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-		<!-- Blog Post -->
-		<div class="card mb-4">
-			<div class="card-body">
-				<div class="row">
-					<div class="col-lg-6">
-						<!-- Condición para mostrar la imagen si está disponible -->
-						<img class="img-fluid rounded" th:if="${producto.imagen != null}"
-							th:src="@{/images/{img} (img=${producto.imagen})}" alt="">
-					</div>
-					<div class="col-lg-6">
-						<form th:action="@{/cart}" method="POST">
-							<input type="hidden" th:value="${producto.id}" name="id">
-							<h2 class="card-title" th:text="${producto.nombre}"></h2>
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2>Comentarios</h2>
+                <div th:if="${#lists.isEmpty(comentarios)}">
+                    <p>No hay comentarios disponibles.</p>
+                </div>
+                <div th:if="${not #lists.isEmpty(comentarios)}">
+                    <div th:each="comentario : ${comentarios}" class="comment-box">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p>
+                                    <strong th:text="${comentario.usuario.username}"></strong>
+                                    <span class="text-muted">(<span th:text="${comentario.usuario.email}"></span>)</span>
+                                    <span class="text-muted" th:text="${#dates.format(comentario.fecha, 'dd/MM/yyyy HH:mm')}"></span>
+                                </p>
+                                <p th:text="${comentario.contenido}"></p>
+                                <div th:if="${comentario.imagen != null and not #strings.isEmpty(comentario.imagen)}" class="col-md-12">
+                                    <img th:src="@{/images/{img} (img=${comentario.imagen})}" class="product-image rounded comentario-imagen" style="max-width: 150px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-							<ul class="list-group">
-								<li class="list-group-item">
-									<h5 th:text=" 'Precio: ' + ${producto.precio}" S></h5>
-								</li>
-								<li class="list-group-item">
-									<p th:text="${producto.descripcion}"></p>
-								</li>
-								<li class="list-group-item">
-									<h6>
-										Cantidad: <input type="number" id="cantidad" name="cantidad" autocomplete="off"
-											min="1" max="5" value="1">
-									</h6>
-								</li>
-							</ul>
+                <form th:action="@{/comentar}" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="productoId" th:value="${producto.id}">
+                    <div class="form-group">
+                        <p></p>
+                        <label for="contenido">Tu comentario:</label>
+                        <textarea id="contenido" name="contenido" class="form-control" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="imagen">Adjuntar imagen:</label>
+                        <input type="file" id="imagen" name="imagen">
+                    </div>
+                    <button type="submit" class="btn btn-dark">Añadir Comentario</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
 
-							<button type="submit" class="btn btn-dark mt-4">Añadir al carrito </button>
+    <!-- Footer -->
+    <div th:include="usuario/template_usuario.html::footer"></div>
 
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="card mb-4">
-			<div class="card-body">
-				<h2>Comentarios</h2>
-				<!-- Verificar si hay comentarios -->
-				<div th:if="${#lists.isEmpty(comentarios)}">
-					<p>No hay comentarios disponibles.</p>
-				</div>
-				<!-- Mostrar comentarios si los hay -->
-				<div th:if="${not #lists.isEmpty(comentarios)}">
-					<div th:each="comentario : ${comentarios}" class="comment-box">
-						<div class="row">
-							<div class="col-md-12">
-								<!-- Nombre de usuario y dirección de correo -->
-								<p>
-									<strong th:text="${comentario.usuario.username}"></strong>
-									<span class="text-muted">(<span
-											th:text="${comentario.usuario.email}"></span>)</span>
-									<span class="text-muted"
-										th:text="${#dates.format(comentario.fecha, 'dd/MM/yyyy HH:mm')}"></span>
-								</p>
-								<!-- Contenido del comentario -->
-								<p th:text="${comentario.contenido}"></p>
-								<!-- Mostrar la imagen del comentario si está disponible -->
-								<div th:if="${comentario.imagen != null and not #strings.isEmpty(comentario.imagen)}" class="col-md-12">
-								    <img th:src="@{/images/{img} (img=${comentario.imagen})}" class="product-image rounded comentario-imagen" style="max-width: 150px;">
-								</div>
-
-
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Formulario para Añadir Comentario -->
-				<form th:action="@{/comentar}" method="post" enctype="multipart/form-data">
-					<input type="hidden" name="productoId" th:value="${producto.id}">
-					<div class="form-group">
-						<p></p>
-						<label for="contenido">Tu comentario:</label>
-						<textarea id="contenido" name="contenido" class="form-control" rows="3" required></textarea>
-					</div>
-					<div class="form-group">
-						<label for="imagen">Adjuntar imagen:</label>
-						<input type="file" id="imagen" name="imagen">
-					</div>
-					<button type="submit" class="btn btn-dark">Añadir Comentario</button>
-				</form>
-			</div>
-		</div>
-
-
-	</div>
-	<!-- /.container -->
-
-	<!-- Footer -->
-	<div th:include="usuario/template_usuario.html::footer"></div>
-
-	<!-- Bootstrap core JavaScript -->
-	<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
-	<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
-	<script th:src="@{/js/imagen.js}"></script>
-
+    <!-- Bootstrap core JavaScript -->
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/imagen.js}"></script>
 </body>
-
 </html>
