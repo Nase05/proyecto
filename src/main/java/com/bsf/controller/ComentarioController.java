@@ -24,74 +24,78 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class ComentarioController {
 
-	@Autowired
-	private ComentarioService comentarioService;
+    @Autowired
+    private ComentarioService comentarioService;
 
-	@Autowired
-	private ProductoServiceImpl productoService;
+    @Autowired
+    private ProductoServiceImpl productoService;
 
-	@Autowired
-	private UsuarioServiceImpl usuarioService;
-	@Autowired
-	private UploadFileService upload;
+    @Autowired
+    private UsuarioServiceImpl usuarioService;
 
-	private Usuario getUsuarioFromSession(HttpSession session) {
-		Integer idUsuario = (Integer) session.getAttribute("idusuario");
-		if (idUsuario != null) {
-			Optional<Usuario> userOptional = usuarioService.findById(idUsuario);
-			if (userOptional.isPresent()) {
-				return userOptional.get();
-			}
-		}
-		return null;
-	}
+    @Autowired
+    private UploadFileService upload;
 
-	private void addSessionAttributes(Model model, HttpSession session) {
-		Integer idUsuario = (Integer) session.getAttribute("idusuario");
-		model.addAttribute("sesion", idUsuario);
-		if (idUsuario != null) {
-			Usuario usuario = getUsuarioFromSession(session);
-			if (usuario != null) {
-				model.addAttribute("usuario", usuario);
-			}
-		}
-	}
+    private Usuario getUsuarioFromSession(HttpSession session) {
+        Integer idUsuario = (Integer) session.getAttribute("idusuario");
+        if (idUsuario != null) {
+            Optional<Usuario> userOptional = usuarioService.findById(idUsuario);
+            if (userOptional.isPresent()) {
+                return userOptional.get();
+            }
+        }
+        return null;
+    }
 
-	@PostMapping("/comentar")
-	public String comentar(@RequestParam String contenido, @RequestParam("imagen") MultipartFile imagenFile,
-			@RequestParam Integer productoId, HttpSession session) {
-		Integer userId = (Integer) session.getAttribute("idusuario");
-		if (userId == null) {
-			return "redirect:/usuario/login";
-		}
+    private void addSessionAttributes(Model model, HttpSession session) {
+        Integer idUsuario = (Integer) session.getAttribute("idusuario");
+        model.addAttribute("sesion", idUsuario);
+        if (idUsuario != null) {
+            Usuario usuario = getUsuarioFromSession(session);
+            if (usuario != null) {
+                model.addAttribute("usuario", usuario);
+            }
+        }
+    }
 
-		Optional<Producto> productoOpt = productoService.findById(productoId);
-		Optional<Usuario> usuarioOpt = usuarioService.findById(userId);
+    @PostMapping("/comentar")
+    public String comentar(@RequestParam String contenido, @RequestParam("imagen") MultipartFile imagenFile,
+            @RequestParam Integer productoId, HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("idusuario");
+        if (userId == null) {
+            return "redirect:/usuario/login";
+        }
 
-		if (productoOpt.isPresent() && usuarioOpt.isPresent()) {
-			Producto producto = productoOpt.get();
-			Usuario usuario = usuarioOpt.get();
+        Optional<Producto> productoOpt = productoService.findById(productoId);
+        Optional<Usuario> usuarioOpt = usuarioService.findById(userId);
 
-			try {
-				// Guarda la imagen y obtén el nombre del archivo guardado
-				String nombreArchivo = upload.saveImage(imagenFile);
+        if (productoOpt.isPresent() && usuarioOpt.isPresent()) {
+            Producto producto = productoOpt.get();
+            Usuario usuario = usuarioOpt.get();
 
-				// Crea el comentario con la ruta de la imagen guardada
-				Comentarios comentario = new Comentarios();
-				comentario.setUsuario(usuario);
-				comentario.setProducto(producto);
-				comentario.setContenido(contenido);
-				comentario.setImagen(nombreArchivo);
-				comentario.setFecha(new Date());
+            try {
+                // Crea el comentario
+                Comentarios comentario = new Comentarios();
+                comentario.setUsuario(usuario);
+                comentario.setProducto(producto);
+                comentario.setContenido(contenido);
+                comentario.setFecha(new Date());
 
-				// Guarda el comentario en la base de datos
-				comentarioService.guardarComentario(comentario);
-			} catch (IOException e) {
-				e.printStackTrace(); // Maneja cualquier excepción de almacenamiento de archivos
-			}
-		}
+                // Guarda la imagen solo si el archivo no está vacío
+                if (!imagenFile.isEmpty()) {
+                    // Guarda la imagen y obtén el nombre del archivo guardado
+                    String nombreArchivo = upload.saveImage(imagenFile);
+                    comentario.setImagen(nombreArchivo);
+                }
 
-		return "redirect:/usuario/productohome/" + productoId;
-	}
+                // Guarda el comentario en la base de datos
+                comentarioService.guardarComentario(comentario);
+            } catch (IOException e) {
+                e.printStackTrace(); // Maneja cualquier excepción de almacenamiento de archivos
+            }
+        }
+
+        return "redirect:/usuario/productohome/" + productoId;
+    }
 
 }
